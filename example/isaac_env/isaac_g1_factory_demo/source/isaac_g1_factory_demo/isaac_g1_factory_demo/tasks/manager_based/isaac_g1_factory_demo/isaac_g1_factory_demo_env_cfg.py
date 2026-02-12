@@ -4,6 +4,8 @@
 # SPDX-License-Identifier: BSD-3-Clause
 import tempfile
 import os
+from pathlib import Path
+
 import torch
 
 import carb
@@ -37,8 +39,10 @@ import math
 from isaaclab.assets import RigidObjectCollection, RigidObjectCollectionCfg
 from . import mdp
 
+assets_dir = Path(__file__).parents[9] / "assets" / "isaac"
+
 from .robots.unitree import G1_INSPIRE_FTP_CFG  # isort: skip
-G1_INSPIRE_FTP_CFG.spawn.usd_path = "/mnt/assets/unitree_sim_isaaclab_usds/assets/robots/g1-29dof-inspire-base-fix-usd/g1_29dof_with_inspire_rev_1_0.usd"
+G1_INSPIRE_FTP_CFG.spawn.usd_path = assets_dir / "robots/g1-29dof-inspire-base-fix-usd/g1_29dof_with_inspire_rev_1_0.usd"
 
 # Actuator configuration for arms (stability focused for manipulation)
 # Increased damping improves stability of arm movements
@@ -77,51 +81,13 @@ G1_INSPIRE_FTP_CFG.actuators["hands"] = ImplicitActuatorCfg(
     armature=0.001,
 )
 
-
-# Actuator configuration for arms (stability focused for manipulation)
-# Increased damping improves stability of arm movements
-# G1_INSPIRE_FTP_CFG.actuators["arms"] = ImplicitActuatorCfg(
-#     joint_names_expr=[
-#         ".*_shoulder_pitch_joint",
-#         ".*_shoulder_roll_joint",
-#         ".*_shoulder_yaw_joint",
-#         ".*_elbow_joint",
-#         ".*_wrist_.*_joint",
-#     ],
-#     effort_limit=300,
-#     velocity_limit=100,
-#     stiffness=3000.0,
-#     damping=100.0,
-#     armature={
-#         ".*_shoulder_.*": 0.001,
-#         ".*_elbow_.*": 0.001,
-#         ".*_wrist_.*_joint": 0.001,
-#     },
-# )
-# # Actuator configuration for hands (flexibility focused for grasping)
-# # Lower stiffness and damping to improve finger flexibility when grasping objects
-# G1_INSPIRE_FTP_CFG.actuators["hands"] = ImplicitActuatorCfg(
-#     joint_names_expr=[
-#         ".*_index_.*",
-#         ".*_middle_.*",
-#         ".*_thumb_.*",
-#         ".*_ring_.*",
-#         ".*_pinky_.*",
-#     ],
-#     effort_limit_sim=30.0,
-#     velocity_limit_sim=10.0,
-#     stiffness=10.0,
-#     damping=0.2,
-#     armature=0.001,
-# )
-
 ANGLE2RAD = math.pi / 180.0
 pick_height = 0.1
 pick_max_vel = 0.2
 
-assets_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-assets_dir = os.path.join(os.path.dirname(assets_dir), "assets")
-print("assets path: {}".format(assets_dir))
+# assets_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+# assets_dir = os.path.join(os.path.dirname(assets_dir), "assets")
+# print("assets path: {}".format(assets_dir))
 
 ##
 # Scene definition
@@ -136,167 +102,38 @@ class IsaacG1FactoryDemoSceneCfg(InteractiveSceneCfg):
         ),
     )
     
-    # object = RigidObjectCfg(
-    #     prim_path="{ENV_REGEX_NS}/Object",
-    #     init_state=RigidObjectCfg.InitialStateCfg(pos=[0, 0.45, 0.9996], rot=[1, 0, 0, 0]),
-    #     spawn=UsdFileCfg(
-    #         usd_path=f"{assets_dir}/bottles/pump_bottle/pressure_pump_14/model_pressure_pump_14_rigid_glass.usd",
-    #         # usd_path=f"{ISAAC_NUCLEUS_DIR}/Props/Blocks/blue_block.usd",
-    #         scale=(0.8, 0.8, 0.8),
-    #         rigid_props=sim_utils.RigidBodyPropertiesCfg(
-    #         solver_position_iteration_count=16,
-    #         solver_velocity_iteration_count=1,
-    #         max_angular_velocity=1000.0,
-    #         max_linear_velocity=1000.0,
-    #         max_depenetration_velocity=5.0,
-    #         disable_gravity=False,
-    #     ),
-    #         # articulation_props=sim_utils.ArticulationRootPropertiesCfg(articulation_enabled=False),
-    #         # mass_props=MassPropertiesCfg(
-    #         #     mass=0.5,
-    #         # ),
-    #     ),
-    # )
-
-    # # random object
-    # object = RigidObjectCfg(
-    #     prim_path="{ENV_REGEX_NS}/Object",
-    #     init_state=RigidObjectCfg.InitialStateCfg(pos=[0, 0.345, 0.9996], rot=[1, 0, 0, 0]),
-    #     spawn=sim_utils.MultiUsdFileCfg(
-    #         usd_path=[
-    #             # f"{assets_dir}/bottles/pump_bottle/pressure_pump_14/model_pressure_pump_14_rigid_glass.usd",
-    #             # f"{assets_dir}/bottles/pump_bottle/pressure_pump_13/model_pressure_pump_13_rigid_glass.usd",
-    #             # f"{assets_dir}/bottles/pump_bottle/pressure_pump_15/model_pressure_pump_15_rigid_glass.usd",
-    #             f"{assets_dir}/bottles/pump_bottle/pressure_pump_14/model_pressure_pump_14_rigid_mass.usd",
-    #             f"{assets_dir}/bottles/pump_bottle/pressure_pump_13/model_pressure_pump_13_rigid_mass.usd",
-    #             f"{assets_dir}/bottles/pump_bottle/pressure_pump_15/model_pressure_pump_15_rigid_mass.usd",
-    #         ],
-    #         random_choice=False,
-    #         scale=(0.8, 0.8, 0.8),
-    #         rigid_props=sim_utils.RigidBodyPropertiesCfg(disable_gravity=False),
-    #         mass_props=MassPropertiesCfg(
-    #             mass=0.05,
-    #         ),
-    #     ),
-    # )
-
     object = RigidObjectCfg(
         prim_path="{ENV_REGEX_NS}/Object",
         init_state=RigidObjectCfg.InitialStateCfg(
             pos=[-3.50831, -0.37687, 0.7385], rot=[1, 0, 0, 0]
         ),
         spawn=UsdFileCfg(
-            # usd_path=f"{ISAACLAB_NUCLEUS_DIR}/AutoMate/00210/socket.usd",
-            usd_path="/mnt/assets/tmp/AutoMate-00210-socket/socket.usd",
+            usd_path=assets_dir / "objects/object_0/socket.usd",
             scale=(1, 1, 1),
             rigid_props=sim_utils.RigidBodyPropertiesCfg(),
         ),
     )
     
-    # object_1 = RigidObjectCfg(
-    #     prim_path="{ENV_REGEX_NS}/Object_1",
-    #     init_state=RigidObjectCfg.InitialStateCfg(
-    #         pos=[-3.54856, -0.38028, 0.7785], rot=[1, 0, 0, 0]
-    #     ),
-    #     spawn=UsdFileCfg(
-    #         # usd_path=f"{ISAACLAB_NUCLEUS_DIR}/AutoMate/00210/socket.usd",
-    #         usd_path="/mnt/assets/tmp/AutoMate-00210-socket/socket.usd",
-    #         scale=(1, 1, 1),
-    #         rigid_props=sim_utils.RigidBodyPropertiesCfg(),
-    #     ),
-    # )
-    
-    object_2 = RigidObjectCfg(
-                prim_path="/World/envs/env_.*/Object_2",
+    object_1 = RigidObjectCfg(
+                prim_path="/World/envs/env_.*/Object_1",
                 init_state=RigidObjectCfg.InitialStateCfg(pos=(-3.58523, -0.37401, 0.7385)),
                 spawn=UsdFileCfg(
-                    # usd_path=f"{ISAACLAB_NUCLEUS_DIR}/AutoMate/AutoMate/00007/socket.usd",
-                    usd_path="/mnt/assets/tmp/new2/object2/socket.usd",
+                    usd_path=assets_dir / "objects/object_1/socket.usd",
                     scale=(1.5, 1.5, 2),
                     rigid_props=sim_utils.RigidBodyPropertiesCfg(),
                 ),
             )
-
-    # object_3 = RigidObjectCfg(
-    #             prim_path="/World/envs/env_.*/Object_3",
-    #             init_state=RigidObjectCfg.InitialStateCfg(pos=(-3.62367, -0.1, 0.7085), rot=[0.72908, 0.58454, 0, 0]),
-    #             spawn=UsdFileCfg(
-    #                 # usd_path=f"{ISAACLAB_NUCLEUS_DIR}/AutoMate/AutoMate/00007/socket.usd",
-    #                 usd_path="/mnt/assets/tmp/AutoMate-00210-socket/socket.usd",
-    #                 scale=(1, 1, 1),
-    #                 rigid_props=sim_utils.RigidBodyPropertiesCfg(),
-    #             ),
-    #         )
     
-    object_4 = RigidObjectCfg(
-                prim_path="/World/envs/env_.*/Object_4",
+    object_2 = RigidObjectCfg(
+                prim_path="/World/envs/env_.*/Object_2",
                 init_state=RigidObjectCfg.InitialStateCfg(pos=(-3.63066, -0.23166, 0.7585), rot=[0.70255, 0.58454, 0.25959, 0.55959]),
                 spawn=UsdFileCfg(
-                    # usd_path=f"{ISAACLAB_NUCLEUS_DIR}/AutoMate/AutoMate/00007/socket.usd",
-                    usd_path="/mnt/assets/tmp/new2/object4/socket.usd",
+                    usd_path=assets_dir / "objects/object_2/socket.usd",
                     scale=(3, 3, 1.5),
                     rigid_props=sim_utils.RigidBodyPropertiesCfg(),
                 ),
             )
     
-    # object_5 = RigidObjectCfg(
-    #             prim_path="/World/envs/env_.*/Object_4",
-    #             init_state=RigidObjectCfg.InitialStateCfg(pos=(-3.52156, -0.2663, 0.7385)),
-    #             spawn=UsdFileCfg(
-    #                 # usd_path=f"{ISAACLAB_NUCLEUS_DIR}/AutoMate/AutoMate/00007/socket.usd",
-    #                 usd_path="/mnt/assets/tmp/new/object5/socket.usd",
-    #                 scale=(1.5, 1.5, 1.5),
-    #                 rigid_props=sim_utils.RigidBodyPropertiesCfg(),
-    #             ),
-    #         )
-    # object: RigidObjectCollectionCfg = RigidObjectCollectionCfg(
-    #     rigid_objects={
-    #         "object_1": RigidObjectCfg(
-    #             prim_path="/World/envs/env_.*/Object_1",
-    #             spawn=UsdFileCfg(
-    #                 # usd_path=f"{ISAACLAB_NUCLEUS_DIR}/AutoMate/00210/socket.usd",
-    #                 usd_path="/mnt/assets/tmp/AutoMate-00210-socket/socket.usd",
-    #                 scale=(1, 1, 1),
-    #                 rigid_props=sim_utils.RigidBodyPropertiesCfg(),
-    #             ),
-    #             init_state=RigidObjectCfg.InitialStateCfg(pos=(-3.56357, -0.39778, 0.73819)),
-    #         ),
-    #         "object_2": RigidObjectCfg(
-    #             prim_path="/World/envs/env_.*/Object_2",
-    #             spawn=UsdFileCfg(
-    #                 # usd_path=f"{ISAACLAB_NUCLEUS_DIR}/AutoMate/AutoMate/00007/socket.usd",
-    #                 usd_path="/mnt/assets/nvidia-omniverse_usd/Assets/Isaac/5.1/Isaac/IsaacLab/AutoMate/00007/socket.usd",
-    #                 scale=(1, 1, 1),
-    #                 rigid_props=sim_utils.RigidBodyPropertiesCfg(),
-    #                 articulation_props=sim_utils.ArticulationRootPropertiesCfg(articulation_enabled=False)
-    #             ),
-    #             init_state=RigidObjectCfg.InitialStateCfg(pos=(-3.76357, -0.40778, 0.73819)),
-    #         ),
-    #         # "object_C": RigidObjectCfg(
-    #         #     prim_path="/World/envs/env_.*/Object_C",
-    #         #     spawn=UsdFileCfg(
-    #         #         # usd_path=f"{ISAACLAB_NUCLEUS_DIR}/AutoMate/AutoMate/00015/socket.usd",
-    #         #         usd_path="/mnt/assets/nvidia-omniverse_usd/Assets/Isaac/5.1/Isaac/IsaacLab/AutoMate/00015/socket.usd",
-    #         #         scale=(1, 1, 1),
-    #         #         rigid_props=sim_utils.RigidBodyPropertiesCfg(),
-    #         #     ),
-    #         #     init_state=RigidObjectCfg.InitialStateCfg(pos=(-3.96357, -0.42778, 0.73819)),
-    #         # ),
-    #         # "object_D": RigidObjectCfg(
-    #         #     prim_path="/World/envs/env_.*/Object_D",
-    #         #     spawn=UsdFileCfg(
-    #         #         # usd_path=f"{ISAACLAB_NUCLEUS_DIR}/AutoMate/AutoMate/00030/socket.usd",
-    #         #         usd_path="/mnt/assets/nvidia-omniverse_usd/Assets/Isaac/5.1/Isaac/IsaacLab/AutoMate/00030/socket.usd",
-    #         #         scale=(1, 1, 1),
-    #         #         rigid_props=sim_utils.RigidBodyPropertiesCfg(),
-    #         #     ),
-    #         #     init_state=RigidObjectCfg.InitialStateCfg(pos=(-4.0, -0.44778, 0.73819)),
-    #         # ),
-    #     }
-    # )
-
-    
-
     # Humanoid robot w/ arms higher
     robot: ArticulationCfg = G1_INSPIRE_FTP_CFG.replace(
         prim_path="/World/envs/env_.*/Robot",
