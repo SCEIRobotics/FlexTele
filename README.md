@@ -114,6 +114,13 @@ python script/start_pico_server.py
 
 Open XRoboToolkit-Unity-Client app, and click send data.
 
+#### ➡️ Visualize
+
+```bash
+cd tools/isaac_teleop_visualize
+python web_isaac_image.py --host 0.0.0.0 --port 8080 --topic isaac/head_cam
+```
+
 ## 🗺️ Roadmap
 - [x] Release pico server and client
 - [x] Release isaaclab teleoperation example with runtime-controllable recorders
