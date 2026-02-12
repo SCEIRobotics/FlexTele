@@ -1,4 +1,4 @@
-<h1 align="center">🌌 FlexTele: Flexible Teleoperation Pipeline for VR & Robotics</h1>
+<h1 align="center">🎮 FlexTele: Flexible Teleoperation Pipeline for VR & Robotics</h1>
 
 <p align="center">
     <img src="https://img.shields.io/badge/Focus-Teleoperation-2C7FB8?style=plastic" alt="Focus">
@@ -121,6 +121,22 @@ Open XRoboToolkit-Unity-Client app, and click send data.
 cd tools/isaac_teleop_visualize
 python web_isaac_image.py --host 0.0.0.0 --port 8080 --topic isaac/head_cam
 ```
+
+#### ➡️ Control Mapping
+
+![Pico Controller](assets/images/pico_controller.png)
+
+| Function | Button | Notes |
+|--------|--------|------|
+| Enable | Hold both grips for 1s | |
+| Disable | Press left menu button once | |
+| Start Record | A | Start recording |
+| End Record | B | Stop recording (auto-save) |
+| Delete Previous Record | right_grip + B | Delete last record |
+| Reset | X | Will also disable |
+| Exit | Left menu button | End session |
+| LEFT_EE_TRIGGER | left_trigger | Left EE toggle control |
+| RIGHT_EE_TRIGGER | right_trigger | Right EE toggle control |
 
 ## 🗺️ Roadmap
 - [x] Release pico server and client
