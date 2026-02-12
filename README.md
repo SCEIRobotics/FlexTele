@@ -12,6 +12,16 @@
 
 `FlexTele` is designed around **decoupled modules**, enabling each part of your teleoperation stack (input, mapping, control, visualization, and logging) to evolve independently while communicating through **distributed messaging**.
 
+<div align="center">
+  <a href="https://www.youtube.com/watch?v=NKwY5TgN_xc" target="_blank">
+    <img src="https://github.com/user-attachments/assets/66e4fa9f-7f20-40ca-9814-43b3ebf92688" width="100%" alt="L3ROcc Demo">
+  </a>
+  <p><i>Left: Simulation view | Right: Teleoperation view</i></p>
+  <p>
+    <b>🎥 <a href="https://www.youtube.com/watch?v=NKwY5TgN_xc">Watch Full Demo on YouTube</a></b>
+  </p>
+</div>
+
 ## ✨ Key Features
 * **Lightweight Core**: Minimal dependencies and fast iteration cycle.
 * **Decoupled Modular Pipeline**: Replace or upgrade any module without touching the rest.
@@ -72,6 +82,8 @@ uv pip install -e .[pico-client]
 ### 3. Run Isaaclab Teleoperation
 
 #### ➡️ Isaaclab Machine
+
+- Isaaclab version: 5.1
 
 ```bash
 cd example/isaac_env/isaac_g1_factory_demo/source/isaac_g1_factory_demo
