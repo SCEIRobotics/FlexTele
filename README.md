@@ -17,7 +17,7 @@
 * **Decoupled Modular Pipeline**: Replace or upgrade any module without touching the rest.
 * **Distributed Communication**: Modules can run on different machines or processes, powered by [Zenoh](https://zenoh.io/) for efficient and scalable data transport.
 * **VR Teleoperation Ready**: Built on [Pico](https://www.picoxr.com/global) and [XRobotoolkit](https://xr-robotics.github.io/), enabling robot control through VR interfaces.
-* **Dynamic Simulation Recording**: Extends IsaacLab environments with runtime-controllable recorders, allowing data capture to be enabled or disabled at arbitrary timesteps.
+* **Dynamic Simulation Recording**: Extends [IsaacLab](https://github.com/isaac-sim/IsaacLab) environments with runtime-controllable recorders, allowing data capture to be enabled or disabled at arbitrary timesteps.
 
 ## 🧩 Architecture
 
@@ -26,14 +26,15 @@
 </p>
 
 ## 🚀 Quick Start
-1. Clone the repository
+
+### 1. Clone the repository
 
 ```bash
 git clone --recursive https://github.com/SCEIRobotics/FlexTele.git
 cd FlexTele
 ```
 
-2. Install dependencies
+### 2. Install dependencies
 
 FlexTele supports two runtime roles depending on deployment:
 
@@ -42,7 +43,7 @@ FlexTele supports two runtime roles depending on deployment:
 
 Please install dependencies according to your role.
 
-### 🖥️ Pico Server Environment
+#### 🖥️ Pico Server Environment
 
 Used for:
 - Read and preprocess data from Pico devices
@@ -59,7 +60,7 @@ uv pip install -e .[pico-server]
 bash script/install_xrobotoolkit.sh
 ```
 
-### 🖥️ Pico Client Environment
+#### 🖥️ Pico Client Environment
 
 Used for:
 - Receive pico data from server
@@ -68,9 +69,9 @@ Used for:
 uv pip install -e .[pico-client]
 ```
 
-3. Run Isaaclab Teleoperation
+### 3. Run Isaaclab Teleoperation
 
-### ➡️ Isaaclab Machine
+#### ➡️ Isaaclab Machine
 
 ```bash
 cd example/isaac_env/isaac_g1_factory_demo/source/isaac_g1_factory_demo
@@ -82,7 +83,7 @@ cd example/isaac_env/isaac_g1_factory_demo/teleoperation
 bash record.sh
 ```
 
-### ➡️ Pico Server Machine
+#### ➡️ Pico Server Machine
 
 Start xrobotoolkit service
 
@@ -97,7 +98,7 @@ Start Flextele Pico Server
 python script/start_pico_server.py
 ```
 
-### ➡️ Pico VR
+#### ➡️ Pico VR
 
 Open XRoboToolkit-Unity-Client app, and click send data.
 
@@ -107,7 +108,17 @@ Open XRoboToolkit-Unity-Client app, and click send data.
 - [ ] Support mujoco and more robots
 
 ## 🙌 Acknowledgements
-This project is built and maintained by the SCEIRobotics team.
+This project is built upon the following excellent works:
+
+- [IsaacLab](https://github.com/isaac-sim/IsaacLab)
+- [XRobotoolkit](https://xr-robotics.github.io/)
+- [Zenoh](https://zenoh.io/)
+
+## 🐼 Core Contributors
+
+Jing He([GitHub](https://github.com/rivergold)), Chen Xing([GitHub](https://github.com/KongCDY))
+
+Sichuan Embodied Intelligence Robot Training Base
 
 ## 📄 License
 This project is released under the MIT License. See the [LICENSE](./LICENSE) file for details.
