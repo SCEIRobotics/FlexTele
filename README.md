@@ -41,6 +41,7 @@
 
 ```bash
 git clone --recursive https://github.com/SCEIRobotics/FlexTele.git
+git lfs pull
 cd FlexTele
 ```
 
