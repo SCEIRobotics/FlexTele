@@ -1,0 +1,6 @@
+[submodule "3rdparty/xrobotoolkit-pc-service"]
+	path = 3rdparty/xrobotoolkit-pc-service
+	url = https://github.com/XR-Robotics/XRoboToolkit-PC-Service.git
+[submodule "3rdparty/xrobotoolkit-pc-service-pybind"]
+	path = 3rdparty/xrobotoolkit-pc-service-pybind
+	url = https://github.com/XR-Robotics/XRoboToolkit-PC-Service-Pybind.git
